@@ -55,7 +55,7 @@ local returningToStart = false
 local lookForChests = false -- Determines if chests should be located as part of the quarrying
 local miningOffset -- The offset to the mining layer. This is set depending on whether chests are being looked for or not
 local lastEmptySlot -- The last inventory slot that was empty when the program started (is either 15 if not looking for chests or 14 if we are)
-local turtleId
+local turtleLabel
 local isWirelessTurtle
 local currentlySelectedSlot = 0 -- The slot that the last noise block was found in
 local lastMoveNeededDig = true -- Determines whether the last move needed a dig first
@@ -96,13 +96,13 @@ function writeMessage(message, msgLevel)
   if (msgLevel >= messageOutputLevel) then
     print(message)
 
-    -- If this turtle has a modem, then write the message to red net
+    -- If this turtle has a modem, then write the message to rednet
     if (isWirelessTurtle == true) then
-      if (turtleId == nil) then
+      if (turtleLabel == nil) then
         rednet.broadcast(message)
       else
-        -- Broadcast the message (prefixed with the turtle's id)
-        rednet.broadcast("[".. turtleId.."] "..message)
+        -- Broadcast the message (prefixed with the turtle's Label)
+        rednet.broadcast("[".. turtleLabel.."] "..message)
       end
     end
 
@@ -1626,7 +1626,7 @@ end
 
 -- If a wireless turtle, open the modem
 if (isWirelessTurtle == true) then
-  turtleId = os.getComputerLabel()
+  turtleLabel = os.getComputerLabel()
   rednet.open("right")
 end
 
